@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, FlatList, Button } from "react-native";
 import { Link } from "expo-router";
 
-const usuarios = [
+/*const usuarios = [
   {
     id: 1,
     nome: "André",
@@ -12,18 +12,18 @@ const usuarios = [
     nome: "Cicinho Cabeça",
     cargo: "Aluno"
   }
-];
+];*/
 
 export default function Index() {
 
   // Item da lista
-  function Item({ usuario }) {
+  /*function Item({ usuario }) {
     return (
       <View key={usuario.id} style={style.itemLista}>
         <Text style={style.textoLista}>{usuario.nome}</Text>
       </View>
     );
-  }
+  }*/
 
   // Cabeçalho da lista
   function Cabecalho() {
@@ -46,11 +46,13 @@ export default function Index() {
     return (
       <View style={style.rodape}>
         <View style={style.botaoContainer}>
+            <View style={style.botao}>
+              <Link href="/user" asChild>
+                <Button title="👤" color="gray"/>
+              </Link>
+            </View>
           <View style={style.botao}>
-              <Button title="Botão 1" color="gray"/>
-          </View>
-          <View style={style.botao}>
-            <Link href="" asChild>
+            <Link href="/" asChild>
               <Button title="🏠" color="gray"/>
             </Link>
           </View>
@@ -65,10 +67,10 @@ export default function Index() {
   }
 
   return ( 
-    <View style={{ flex: 1 }}>
+    <View style={style.containerP}>
       <FlatList
-        data={usuarios}
-        renderItem={({ item }) => <Item usuario={item} />}
+        //data={usuarios}
+        //renderItem={({ item }) => <Item usuario={item} />}
         ListHeaderComponent={() => <Tela><Cabecalho /></Tela>}
         style={{ width: '100%' }}
       />
@@ -82,6 +84,11 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+
+  containerP: {
+    flex: 1,
+    backgroundColor: 'black'
   },
 
   itemLista: {
@@ -99,7 +106,7 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center', // Centraliza verticalmente
     alignItems: 'center', // Centraliza horizontalmente
-    padding: 20
+    padding: 20,
   },
 
   rodape: {
@@ -120,7 +127,6 @@ const style = StyleSheet.create({
     flex: 1, // Faz os botões ocuparem todo o espaço possível
     marginHorizontal: 5, // Espaço entre os botões
   },
-
     symbol: {
     width: 5,
     height: 5
