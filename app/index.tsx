@@ -28,15 +28,29 @@ export default function Index() {
   // Cabeçalho da lista
   function Cabecalho() {
     return (
-      <Text style={{ fontSize: 30, fontWeight: 'bold', padding: 10, textAlign: 'center' }}>Lista de Usuários</Text>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10, textAlign: 'left', color: 'white' }}>Gerenciamento de turmas</Text>
     );
   }
 
   // Função Tela para centralizar o conteúdo
-  function Tela({ children }) {
+  function Tela() {
     return (
-      <View style={style.centralizado}>
-        {children}
+      <View style={style.botaoContainerTela}>
+        <View style={style.botaoTela}>
+          <Link href="/Turmas" asChild>
+            <Button title="Turmas" color="gray"/>
+          </Link>
+        </View>
+        <View style={style.botaoTela}>
+          <Link href="/Pagamentos" asChild>
+            <Button title="Pagamentos" color="gray"/>
+          </Link>
+        </View>
+        <View style={style.botaoTela}>
+          <Link href="/Checkins" asChild>
+            <Button title="Check-ins" color="gray"/>
+          </Link>
+        </View>       
       </View>
     );
   }
@@ -48,17 +62,17 @@ export default function Index() {
         <View style={style.botaoContainer}>
             <View style={style.botao}>
               <Link href="/user" asChild>
-                <Button title="👤" color="gray"/>
+                <Button title="👤" color="black"/>
               </Link>
             </View>
           <View style={style.botao}>
             <Link href="/" asChild>
-              <Button title="🏠" color="gray"/>
+              <Button title="🏠" color="black"/>
             </Link>
           </View>
           <View style={style.botao}>
               <Link href="/config" asChild>
-                <Button title="⚙" color="gray"/>
+                <Button title="⚙" color="black"/>
               </Link>
           </View>
         </View>
@@ -71,7 +85,7 @@ export default function Index() {
       <FlatList
         //data={usuarios}
         //renderItem={({ item }) => <Item usuario={item} />}
-        ListHeaderComponent={() => <Tela><Cabecalho /></Tela>}
+        ListHeaderComponent={() => <Tela> <Cabecalho /></Tela>}
         style={{ width: '100%' }}
       />
       <Rodape />
@@ -122,14 +136,23 @@ const style = StyleSheet.create({
     width: '80%', // Controla a largura dos botões
   },
 
+  botaoContainerTela: {
+    flexDirection: 'column', // Alinha os botões horizontalmente
+    justifyContent: 'center',
+    alignItems: 'center', // Centraliza os itens no eixo horizontal
+    paddingTop: 200
+  },
+
+  botaoTela: {
+    flex: 1, // Faz os botões ocuparem todo o espaço possível
+    marginBottom: 25, // Espaço entre os botões
+    
+  },
+
   // Estilo individual de cada botão
   botao: {
     flex: 1, // Faz os botões ocuparem todo o espaço possível
     marginHorizontal: 5, // Espaço entre os botões
-  },
-    symbol: {
-    width: 5,
-    height: 5
   }
 
 });
