@@ -1,26 +1,27 @@
 import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
-export default function Membros() {
+export default function Planos() {
 
-  const [membro, setMembros] = useState([]);
-  const getMembros = async () => {
-    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/membrosTurma');
+  const [planos, setPlanos] = useState([]);
+  const router = useRouter();
+  const getPlanos = async () => {
+    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/plano');
     const json = await response.json();
-    setMembros(json.data);
+    setPlanos(json.data);
   }
 
   useEffect(() => {
-    getMembros();
+    getPlanos();
   }, []);
 
 
-  function Item({ usuario }) {
+  function Item({ plano }) {
     return (
-      <View style={styles.containerMembros}>
+      <View style={styles.containerPlanos}>
         <Link href="/" asChild>
-          <Button title={`${usuario.nome}`} color="gray"></Button>
+          <Button title={`${plano.nome} | ${plano.checkins} | ${plano.valor}`} color="gray" ></Button>
         </Link>
       </View>
     );
@@ -28,20 +29,25 @@ export default function Membros() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Membros da turma</Text>
+      <Text style={styles.titulo}>Gerenciamento de Planos</Text>
 
       <FlatList
-        data={membro}
+        data={planos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Item usuario={item} />}
+        renderItem={({ item }) => <Item plano={item} />}
         style={{ width: "100%" }}
       />
+
+      <View style={styles.botaoCriar}>
+        <Link href="/createPlano" asChild>
+          <Button title="Criar novo plano" color="gray" />
+        </Link>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 
-  containerMembros: {
+  containerPlanos: {
     flex: 1,
     backgroundColor: "black",
     paddingTop: 20,
@@ -73,5 +79,11 @@ const styles = StyleSheet.create({
   texto: {
     fontSize: 18,
     color: "white",
+  },
+  botoes: {
+    flexDirection: "row",
+  },
+  botaoCriar: {
+    marginVertical: 50
   }
 });

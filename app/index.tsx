@@ -42,6 +42,11 @@ export default function Index() {
           </Link>
         </View>
         <View style={style.botaoTela}>
+          <Link href="/Planos" asChild>
+            <Button title="Planos" color="gray"/>
+          </Link>
+        </View>
+        <View style={style.botaoTela}>
           <Link href="/Pagamentos" asChild>
             <Button title="Pagamentos" color="gray"/>
           </Link>

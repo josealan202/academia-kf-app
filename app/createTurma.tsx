@@ -57,7 +57,7 @@ export default function InserirTexto() {
       />
 
       <View style={styles.botao}>
-        <Button title="Enviar" color="gray" onPress={enviarTurma} />
+        <Button title="Criar" color="gray" onPress={enviarTurma} />
       </View>
     </View>
   );
