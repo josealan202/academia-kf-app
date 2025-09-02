@@ -19,7 +19,7 @@ export default function Turmas() {
   function Item({ turma }) {
     return (
       <View style={styles.containerTurmas}>
-        <Link href="/Membros" asChild>
+        <Link href="/turma/Membros" asChild>
           <Button title={`${turma.nome} | ${turma.horario}`} color="gray" ></Button>
         </Link>
       </View>
