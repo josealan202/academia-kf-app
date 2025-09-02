@@ -2,25 +2,25 @@ import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import { Link } from "expo-router";
 
-export default function Membros() {
+export default function Turmas() {
 
-  const [membro, setMembros] = useState([]);
-  const getMembros = async () => {
-    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/membrosTurma');
+  const [turmas, setTurmas] = useState([]);
+  const getTurmas = async () => {
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/mostrarTurma');
     const json = await response.json();
-    setMembros(json.data);
+    setTurmas(json.data);
   }
 
   useEffect(() => {
-    getMembros();
+    getTurmas();
   }, []);
 
 
-  function Item({ usuario }) {
+  function Item({ turma }) {
     return (
-      <View style={styles.containerMembros}>
-        <Link href="/" asChild>
-          <Button title={`${usuario.nome}`} color="gray"></Button>
+      <View style={styles.containerTurmas}>
+        <Link href="/Membros" asChild>
+          <Button title={`${turma.nome} | ${turma.horario}`} color="gray" ></Button>
         </Link>
       </View>
     );
@@ -28,20 +28,25 @@ export default function Membros() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Membros da turma</Text>
+      <Text style={styles.titulo}>Gerenciamento de Turmas</Text>
 
       <FlatList
-        data={membro}
+        data={turmas}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Item usuario={item} />}
+        renderItem={({ item }) => <Item turma={item} />}
         style={{ width: "100%" }}
       />
+
+      <View style={styles.botaoCriar}>
+        <Link href="/turma/createTurma" asChild>
+          <Button title="Criar nova turma" color="gray" />
+        </Link>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 
-  containerMembros: {
+  containerTurmas: {
     flex: 1,
     backgroundColor: "black",
     paddingTop: 20,
@@ -73,5 +78,11 @@ const styles = StyleSheet.create({
   texto: {
     fontSize: 18,
     color: "white",
+  },
+  botoes: {
+    flexDirection: "row",
+  },
+  botaoCriar: {
+    marginVertical: 50
   }
 });

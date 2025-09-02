@@ -10,7 +10,7 @@ export default function InserirTexto() {
   const enviarTurma = async () => {
     try {
       const resposta = await fetch(
-        "https://sv570p94-3000.brs.devtunnels.ms/api/createTurma",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/createTurma",
         {
           method: "POST",
           headers: {
@@ -26,7 +26,8 @@ export default function InserirTexto() {
 
       if (resposta.ok) {
         Alert.alert("Sucesso", "Turma criada com sucesso!");
-        router.push("/Turmas");
+        router.dismissAll();
+        router.replace("/turma/Turmas");
       } else {
         Alert.alert("Erro", "Não foi possível criar a turma.");
       }

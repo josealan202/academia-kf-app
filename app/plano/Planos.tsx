@@ -1,26 +1,27 @@
 import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
-export default function Turmas() {
+export default function Planos() {
 
-  const [turmas, setTurmas] = useState([]);
-  const getTurmas = async () => {
-    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/turma');
+  const [planos, setPlanos] = useState([]);
+  const router = useRouter();
+  const getPlanos = async () => {
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/mostrarPlano');
     const json = await response.json();
-    setTurmas(json.data);
+    setPlanos(json.data);
   }
 
   useEffect(() => {
-    getTurmas();
+    getPlanos();
   }, []);
 
 
-  function Item({ turma }) {
+  function Item({ plano }: { plano: { id: number; nome: string; checkins: number; valor: number; } }) {
     return (
-      <View style={styles.containerTurmas}>
-        <Link href="/Membros" asChild>
-          <Button title={`${turma.nome} | ${turma.horario}`} color="gray" ></Button>
+      <View style={styles.containerPlanos}>
+        <Link href="/updatePlano" asChild>
+          <Button title={`${plano.nome} | ${plano.checkins} | R$ ${plano.valor}`} color="gray" ></Button>
         </Link>
       </View>
     );
@@ -28,18 +29,18 @@ export default function Turmas() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Gerenciamento de Turmas</Text>
+      <Text style={styles.titulo}>Gerenciamento de Planos</Text>
 
       <FlatList
-        data={turmas}
+        data={planos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Item turma={item} />}
+        renderItem={({ item }) => <Item plano={item} />}
         style={{ width: "100%" }}
       />
 
       <View style={styles.botaoCriar}>
-        <Link href="/createTurma" asChild>
-          <Button title="Criar nova turma" color="gray" />
+        <Link href="/plano/createPlano" asChild>
+          <Button title="Criar novo plano" color="gray" />
         </Link>
       </View>
     </View>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 
-  containerTurmas: {
+  containerPlanos: {
     flex: 1,
     backgroundColor: "black",
     paddingTop: 20,
