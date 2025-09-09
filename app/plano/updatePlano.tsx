@@ -1,19 +1,18 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
-export default function AlterarPlano() {
-  const { id } = useLocalSearchParams();
+export default function EditarPlano() {
+  const { id, quantvezesnasemana, checkins, valor } = useLocalSearchParams();
+  const [quantvezesnasemanaPlano, setquantvezesnasemanaPlano] = useState(String(quantvezesnasemana) || "");
+  const [checkinsPlano, setCheckinsPlano] = useState(String(checkins) || "");
+  const [valorPlano, setValorPlano] = useState(String(valor) || "");
   const router = useRouter();
-
-  const [nomePlano, setNomePlano] = useState("");
-  const [checkinsPlano, setCheckinsPlano] = useState("");
-  const [valorPlano, setValorPlano] = useState("");
 
   const atualizarPlano = async () => {
     try {
       const resposta = await fetch(
-        `https://sk3c6h6g-3000.brs.devtunnels.ms/api/updatePlano/${id}`,
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/updatePlano",
         {
           method: "PUT",
           headers: {
@@ -21,20 +20,21 @@ export default function AlterarPlano() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id, // precisa ser incluído aqui, pois o backend espera isso no body
-            nome: nomePlano || null,
-            checkins: checkinsPlano ? parseInt(checkinsPlano) : null,
-            valor: valorPlano ? parseFloat(valorPlano) : null,
+            id: parseInt(id),
+            quantvezesnasemana: parseInt(quantvezesnasemanaPlano),
+            checkins: parseInt(checkinsPlano),
+            valor: parseFloat(valorPlano),
           }),
         }
       );
 
       if (resposta.ok) {
         Alert.alert("Sucesso", "Plano atualizado com sucesso!");
-        router.push("/plano/Planos");
+        router.dismissAll();
+        router.replace("/plano/Planos");
       } else {
-        const data = await resposta.json();
-        Alert.alert("Erro", data?.error || "Não foi possível atualizar o plano.");
+        const erro = await resposta.json();
+        Alert.alert("Erro", erro.error || "Não foi possível atualizar o plano.");
       }
     } catch (erro) {
       console.error("Erro ao atualizar plano:", erro);
@@ -44,36 +44,40 @@ export default function AlterarPlano() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Alterar Plano (ID: {id})</Text>
+      <Text style={styles.titulo}>Editar Plano</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Novo nome do plano"
+        placeholder="Quantidade de vezes da semana do plano"
         placeholderTextColor="#aaa"
-        value={nomePlano}
-        onChangeText={setNomePlano}
+        value={quantvezesnasemanaPlano}
+        keyboardType="numeric"
+        maxLength={1}
+        onChangeText={setquantvezesnasemanaPlano}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Nova quantidade de check-ins"
+        placeholder="Quantidade de check-ins do plano"
         placeholderTextColor="#aaa"
-        keyboardType="numeric"
         value={checkinsPlano}
+        keyboardType="numeric"
+        maxLength={2}
         onChangeText={setCheckinsPlano}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Novo valor"
+        placeholder="Valor do plano"
         placeholderTextColor="#aaa"
-        keyboardType="decimal-pad"
         value={valorPlano}
+        keyboardType="decimal-pad"
+        maxLength={3}
         onChangeText={setValorPlano}
       />
 
       <View style={styles.botao}>
-        <Button title="Atualizar" color="gray" onPress={atualizarPlano} />
+        <Button title="Salvar Alterações" color="gray" onPress={atualizarPlano} />
       </View>
     </View>
   );
@@ -87,12 +91,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
+
   titulo: {
     fontSize: 24,
     color: "white",
     marginBottom: 20,
     fontWeight: "bold",
   },
+
   input: {
     width: "100%",
     borderColor: "gray",
@@ -102,7 +108,8 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 20,
   },
+
   botao: {
-    width: "50%",
+    width: "70%",
   },
 });

@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
 
 export default function InserirTexto() {
-  const [nomePlano, setNomePlano] = useState("");
+  const [quantvezesnasemanaPlano, setquantvezesnasemanaPlano] = useState("");
   const [checkinsPlano, setCheckinsPlano] = useState("");
   const [valorPlano, setValorPlano] = useState("");
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function InserirTexto() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            nome: nomePlano,
+            quantvezesnasemana: parseInt(quantvezesnasemanaPlano),
             checkins: parseInt(checkinsPlano), // convertido para número inteiro
             valor: parseFloat(valorPlano),     // convertido para número decimal
           }),
@@ -45,10 +45,12 @@ export default function InserirTexto() {
 
       <TextInput
         style={styles.input}
-        placeholder="Nome do plano"
+        placeholder="Quantidade de vezes da semana do plano"
         placeholderTextColor="#aaa"
-        value={nomePlano}
-        onChangeText={setNomePlano}
+        value={quantvezesnasemanaPlano}
+        keyboardType="numeric"
+        maxLength={1}
+        onChangeText={setquantvezesnasemanaPlano}
       />
 
       <TextInput
@@ -57,6 +59,7 @@ export default function InserirTexto() {
         placeholderTextColor="#aaa"
         value={checkinsPlano}
         keyboardType="numeric"
+        maxLength={2}
         onChangeText={setCheckinsPlano}
       />
 
@@ -66,6 +69,7 @@ export default function InserirTexto() {
         placeholderTextColor="#aaa"
         value={valorPlano}
         keyboardType="decimal-pad"
+        maxLength={3}
         onChangeText={setValorPlano}
       />
 
