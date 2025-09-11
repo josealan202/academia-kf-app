@@ -12,28 +12,6 @@ export default function Planos() {
     setPlano(json.data);
   }
 
-  const deletarPlano = async (id) => {
-  try {
-    const resposta = await fetch(`https://sv570p94-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
-      method: 'DELETE',
-    });
-
-    const json = await resposta.json();
-
-    if (resposta.ok) {
-      Alert.alert("Sucesso", json.message);
-      // Atualiza a lista de planos
-      setPlano(prev => prev.filter(p => p.id !== id));
-    } else {
-      Alert.alert("Erro", json.error || "Não foi possível deletar o plano.");
-    }
-    } catch (erro) {
-      console.error("Erro ao deletar plano:", erro);
-      Alert.alert("Erro", "Ocorreu um erro inesperado.");
-    }
-  };
-
-
   useEffect(() => {
     getPlano();
   }, []);
@@ -42,35 +20,30 @@ export default function Planos() {
   function Item({ plano }: { plano: { id: number; quantvezesnasemana: number; checkins: number; valor: number; } }) {
     return (
       <View style={styles.containerPlanos}>
-        <Link href="/plano/assinantes" asChild
+        <Link 
+          href={{
+            pathname: "/plano/updatePlano",
+            params: {
+            id: plano.id,
+            quantvezesnasemana: plano.quantvezesnasemana,
+            checkins: plano.checkins,
+            valor: plano.valor,
+          },
+        }} 
+        asChild
       >
         <Button 
           title={`${plano.quantvezesnasemana} dia(s) na semana | ${plano.checkins} Check-ins | R$ ${plano.valor} reais`} 
           color="gray" 
           />
         </Link>
-
-        <Button
-        title="Deletar"
-        color="red"
-        onPress={() => {
-          Alert.alert(
-            "Confirmar exclusão",
-            "Deseja realmente deletar este plano?",
-            [
-              { text: "Cancelar", style: "cancel" },
-              { text: "Deletar", style: "destructive", onPress: () => deletarPlano(plano.id) },
-            ]
-          );
-        }}
-      />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Gerenciamento de Planos</Text>
+      <Text style={styles.titulo}>Clique em um plano para editar</Text>
 
       <FlatList
         data={plano}
@@ -78,18 +51,6 @@ export default function Planos() {
         renderItem={({ item }) => <Item plano={item} />}
         style={{ width: "100%" }}
       />
-
-      <View style={{ marginVertical: 20, width: "100%" }}>
-        <Link href="/plano/createPlano" asChild>
-          <Button title="Criar novo plano" color="gray" />
-        </Link>
-
-      <View style={{ height: 10 }} />
-
-        <Link href="/plano/viewUpdatePlano" asChild>
-          <Button title="Editar plano" color="gray" />
-        </Link>
-      </View>
     </View>
   );
 }
@@ -130,10 +91,6 @@ const styles = StyleSheet.create({
 
   botoes: {
     flexDirection: "row",
-  },
-
-  botaoCriar: {
-    marginVertical: 50,
   }
   
 });

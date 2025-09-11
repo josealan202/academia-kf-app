@@ -11,62 +11,37 @@ export default function Turmas() {
     setTurmas(json.data);
   }
 
-  const deletarTurma = async (id) => {
-  try {
-    const resposta = await fetch(`https://sv570p94-3000.brs.devtunnels.ms/api/turma/deleteTurma?id=${id}`, {
-      method: 'DELETE',
-    });
-
-    const json = await resposta.json();
-
-    if (resposta.ok) {
-      Alert.alert("Sucesso", json.message);
-      // Atualiza a lista de turmas
-      setTurmas(prev => prev.filter(p => p.id !== id));
-    } else {
-      Alert.alert("Erro", json.error || "Não foi possível deletar o turma.");
-    }
-    } catch (erro) {
-      console.error("Erro ao deletar turma:", erro);
-      Alert.alert("Erro", "Ocorreu um erro inesperado.");
-    }
-  };
-
   useEffect(() => {
     getTurmas();
   }, []);
 
 
-  function Item({ turma }) {
+  function Item({ turma }: { turma: { id: number; nome: string; horario: string; turno: string; } }) {
     const horarioFormatado = turma.horario ? turma.horario.slice(0, 5) : "";
 
     return (
       <View style={styles.containerTurmas}>
-        <Link href="/turma/membros" asChild>
+        <Link 
+          href={{
+            pathname: "/turma/updateTurma",
+            params: {
+            id: turma.id,
+            nome: turma.nome,
+            horario: turma.horario,
+            turno: turma.turno,
+          },
+        }} 
+        asChild
+      >
           <Button title={`${turma.nome} | ${horarioFormatado} | ${turma.turno}`} color="gray"/>          
         </Link>
-
-        <Button
-            title="Deletar"
-            color="red"
-            onPress={() => {
-              Alert.alert(
-                "Confirmar exclusão",
-                "Deseja realmente deletar esta turma?",
-              [
-                { text: "Cancelar", style: "cancel" },
-                { text: "Deletar", style: "destructive", onPress: () => deletarTurma(turma.id) },
-              ]
-            );
-          }}
-        />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Gerenciamento de Turmas</Text>
+      <Text style={styles.titulo}>Clique em uma turma para editar</Text>
 
       <FlatList
         data={turmas}
@@ -74,18 +49,6 @@ export default function Turmas() {
         renderItem={({ item }) => <Item turma={item} />}
         style={{ width: "100%" }}
       />
-
-      <View style={{ marginVertical: 20, width: "100%" }}>
-        <Link href="/turma/createTurma" asChild>
-          <Button title="Criar nova turma" color="gray" />
-        </Link>
-
-      <View style={{ height: 10 }} />
-
-        <Link href="/turma/viewUpdateTurma" asChild>
-          <Button title="Editar turma" color="gray" />
-        </Link>
-      </View>
     </View>
   );
 }

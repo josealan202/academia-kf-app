@@ -6,7 +6,7 @@ export default function Membros() {
 
   const [membro, setMembros] = useState([]);
   const getMembros = async () => {
-    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/membrosTurma');
+    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/turma/membrosTurma');
     const json = await response.json();
     setMembros(json.data);
   }
