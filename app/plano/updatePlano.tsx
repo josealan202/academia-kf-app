@@ -12,7 +12,7 @@ export default function EditarPlano() {
   const atualizarPlano = async () => {
     try {
       const resposta = await fetch(
-        "https://sv570p94-3000.brs.devtunnels.ms/api/plano/updatePlano",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/updatePlano",
         {
           method: "PUT",
           headers: {
@@ -20,7 +20,7 @@ export default function EditarPlano() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: parseInt(id),
+            id: id,
             quantvezesnasemana: parseInt(quantvezesnasemanaPlano),
             checkins: parseInt(checkinsPlano),
             valor: parseFloat(valorPlano),

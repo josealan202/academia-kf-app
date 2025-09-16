@@ -19,7 +19,7 @@ export default function InserirTexto() {
 
   try {
     const resposta = await fetch(
-      "https://sv570p94-3000.brs.devtunnels.ms/api/turma/createTurma",
+      "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/createTurma",
       {
         method: "POST",
         headers: {

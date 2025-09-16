@@ -11,7 +11,7 @@ export default function InserirTexto() {
   const enviarPlano = async () => {
     try {
       const resposta = await fetch(
-        "https://sv570p94-3000.brs.devtunnels.ms/api/plano/createPlano",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/createPlano",
         {
           method: "POST",
           headers: {

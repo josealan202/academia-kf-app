@@ -7,14 +7,14 @@ export default function Planos() {
   const [plano, setPlano] = useState([]);
   const router = useRouter();
   const getPlano = async () => {
-    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/plano/viewPlano');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/viewPlano');
     const json = await response.json();
     setPlano(json.data);
   }
 
   const deletarPlano = async (id) => {
   try {
-    const resposta = await fetch(`https://sv570p94-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
+    const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
       method: 'DELETE',
     });
 

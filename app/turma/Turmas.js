@@ -6,14 +6,14 @@ export default function Turmas() {
 
   const [turmas, setTurmas] = useState([]);
   const getTurmas = async () => {
-    const response = await fetch('https://sv570p94-3000.brs.devtunnels.ms/api/turma/viewTurma');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/viewTurma');
     const json = await response.json();
     setTurmas(json.data);
   }
 
   const deletarTurma = async (id) => {
   try {
-    const resposta = await fetch(`https://sv570p94-3000.brs.devtunnels.ms/api/turma/deleteTurma?id=${id}`, {
+    const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/deleteTurma?id=${id}`, {
       method: 'DELETE',
     });
 
@@ -24,7 +24,7 @@ export default function Turmas() {
       // Atualiza a lista de turmas
       setTurmas(prev => prev.filter(p => p.id !== id));
     } else {
-      Alert.alert("Erro", json.error || "Não foi possível deletar o turma.");
+      Alert.alert("Erro", json.error || "Não foi possível deletar a turma.");
     }
     } catch (erro) {
       console.error("Erro ao deletar turma:", erro);

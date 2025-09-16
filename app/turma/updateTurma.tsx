@@ -12,7 +12,7 @@ export default function EditarTurma() {
   const atualizarTurma = async () => {
     try {
       const resposta = await fetch(
-        "https://sv570p94-3000.brs.devtunnels.ms/api/turma/updateTurma",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/updateTurma",
         {
           method: "PUT",
           headers: {
@@ -20,7 +20,7 @@ export default function EditarTurma() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: parseInt(id),
+            id: id,
             nome: nomeTurma,
             horario: horarioTurma,
             turno: turnoTurma,
