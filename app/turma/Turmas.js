@@ -42,7 +42,7 @@ export default function Turmas() {
 
     return (
       <View style={styles.containerTurmas}>
-        <Link href="/turma/membros" asChild>
+        <Link href="/turma/alunosTurma" asChild>
           <Button title={`${turma.nome} | ${horarioFormatado} | ${turma.turno}`} color="gray"/>          
         </Link>
 
