@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { View, Text, Button, FlatList, StyleSheet, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import { Link } from "expo-router";

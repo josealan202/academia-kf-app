@@ -1,10 +1,14 @@
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRouter, usePathname } from "expo-router";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  const hideFooter = pathname === "/" || pathname === "/index";
 
   return (
     <SafeAreaProvider>
@@ -13,24 +17,25 @@ export default function RootLayout() {
           screenOptions={{
             headerStyle: { backgroundColor: "gray" },
             headerTintColor: "white",
-            headerTitle: "Academia Gladiadores",
+            headerTitle: "CT Gladiadores",
           }}
         />
-
-        <SafeAreaView style={styles.footer} edges={["bottom"]}>
-          <TouchableOpacity onPress={() => router.push("/user")} style={styles.button}>
-            <Ionicons name="person" size={24} color="white" />
-            <Text style={styles.label}>Usuário</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.replace("/")} style={styles.button}>
-            <Ionicons name="home" size={24} color="white" />
-            <Text style={styles.label}>Início</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/config")} style={styles.button}>
-            <Ionicons name="settings" size={24} color="white" />
-            <Text style={styles.label}>Opções</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
+        {!hideFooter && (
+          <SafeAreaView style={styles.footer} edges={["bottom"]}>
+            <TouchableOpacity onPress={() => router.push("/user")} style={styles.button}>
+              <Ionicons name="person" size={24} color="white" />
+              <Text style={styles.label}>Usuário</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.replace("/menu")} style={styles.button}>
+              <Ionicons name="home" size={24} color="white" />
+              <Text style={styles.label}>Início</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/config")} style={styles.button}>
+              <Ionicons name="settings" size={24} color="white" />
+              <Text style={styles.label}>Opções</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        )}
       </SafeAreaView>
     </SafeAreaProvider>
   );
