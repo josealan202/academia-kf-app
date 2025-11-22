@@ -1,20 +1,44 @@
 //@ts-nocheck
 
 import { View, Text, Button, FlatList, StyleSheet, Alert } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
-export default function Alunos() {
+export default function Alunos({ navigation }) {
+  
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const savedUser = await AsyncStorage.getItem('@user');
+            if (!savedUser) {
+                navigation.replace('/menu');
+            } else {
+                setUser(JSON.parse(savedUser));
+            }
+        }
+        checkUser();
+    }, []);
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      await AsyncStorage.removeItem('@user');
+      navigation.replace('/menu');
+  };
+  
   const [aluno, setAlunos] = useState([]);
 
   const getAlunos = async () => {
-    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/aluno/viewAluno');
+    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/aluno/viewAluno');
     const json = await response.json();
     setAlunos(json.data);
   };
 
   const deletarAluno = async (id) => {
     try {
-      const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/aluno/deleteAluno?id=${id}`, {
+      const resposta = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/aluno/deleteAluno?id=${id}`, {
         method: 'DELETE',
       });
 

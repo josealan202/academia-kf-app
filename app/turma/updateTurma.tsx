@@ -1,8 +1,34 @@
-import { useState } from "react";
+//@ts-nocheck
+
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
-export default function EditarTurma() {
+export default function EditarTurma({ navigation }) {
+  
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const savedUser = await AsyncStorage.getItem('@user');
+            if (!savedUser) {
+                navigation.replace('/menu');
+            } else {
+                setUser(JSON.parse(savedUser));
+            }
+        }
+        checkUser();
+    }, []);
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      await AsyncStorage.removeItem('@user');
+      navigation.replace('/menu');
+  };
+
   const { id, nome, horario, turno } = useLocalSearchParams();
   const [nomeTurma, setNomeTurma] = useState(String(nome) || "");
   const [horarioTurma, setHorarioTurma] = useState(String(horario) || "");
@@ -12,7 +38,7 @@ export default function EditarTurma() {
   const atualizarTurma = async () => {
     try {
       const resposta = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/updateTurma",
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/updateTurma",
         {
           method: "PUT",
           headers: {

@@ -1,17 +1,42 @@
-import { useState } from "react";
+//@ts-nocheck
+
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 
-export default function InserirTexto() {
+export default function CriarPlano({ navigation }) {
   const [quantvezesnasemanaPlano, setquantvezesnasemanaPlano] = useState("");
   const [checkinsPlano, setCheckinsPlano] = useState("");
   const [valorPlano, setValorPlano] = useState("");
   const router = useRouter();
 
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const savedUser = await AsyncStorage.getItem('@user');
+            if (!savedUser) {
+                navigation.replace('/menu');
+            } else {
+                setUser(JSON.parse(savedUser));
+            }
+        }
+        checkUser();
+    }, []);
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      await AsyncStorage.removeItem('@user');
+      navigation.replace('/menu');
+  };
+
   const enviarPlano = async () => {
     try {
       const resposta = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/createPlano",
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/createPlano",
         {
           method: "POST",
           headers: {

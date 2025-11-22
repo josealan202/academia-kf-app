@@ -1,10 +1,33 @@
 //@ts-nocheck
 
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, FlatList, Button } from "react-native";
 import { Link } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
+export default function Index({ navigation }) {
 
-export default function Index() {
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const savedUser = await AsyncStorage.getItem('@user');
+            if (!savedUser) {
+                navigation.replace('/menu');
+            } else {
+                setUser(JSON.parse(savedUser));
+            }
+        }
+        checkUser();
+    }, []);
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      await AsyncStorage.removeItem('@user');
+      navigation.replace('/menu');
+  };
 
   // Cabeçalho da lista
   function Cabecalho() {

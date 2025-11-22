@@ -1,22 +1,46 @@
 //@ts-nocheck
 
 import { View, Text, Button, FlatList, StyleSheet, Alert } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
-export default function Planos() {
+export default function Planos({ navigation }) {
 
   const [plano, setPlano] = useState([]);
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        async function checkUser() {
+            const savedUser = await AsyncStorage.getItem('@user');
+            if (!savedUser) {
+                navigation.replace('/menu');
+            } else {
+                setUser(JSON.parse(savedUser));
+            }
+        }
+        checkUser();
+    }, []);
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      await AsyncStorage.removeItem('@user');
+      navigation.replace('/menu');
+  };
+
   const router = useRouter();
+
   const getPlano = async () => {
-    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/viewPlano');
+    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/viewPlano');
     const json = await response.json();
     setPlano(json.data);
   }
 
   const deletarPlano = async (id) => {
   try {
-    const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
+    const resposta = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
       method: 'DELETE',
     });
 
