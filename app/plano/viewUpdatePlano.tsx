@@ -7,17 +7,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function Planos({ navigation }) {
+export default function Planos() {
 
-  const [plano, setPlano] = useState([]);
   const router = useRouter();
+  const [plano, setPlano] = useState([]);
   const [user, setUser] = useState(null);
 
     useEffect(() => {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -28,7 +28,7 @@ export default function Planos({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const getPlano = async () => {

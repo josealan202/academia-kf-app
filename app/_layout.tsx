@@ -15,6 +15,7 @@ export default function RootLayout() {
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <Stack
           screenOptions={{
+            headerShown: false,
             headerStyle: { backgroundColor: "gray" },
             headerTintColor: "white",
             headerTitle: "CT Gladiadores",

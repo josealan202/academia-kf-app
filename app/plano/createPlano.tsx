@@ -7,7 +7,7 @@ import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 
-export default function CriarPlano({ navigation }) {
+export default function CriarPlano() {
   const [quantvezesnasemanaPlano, setquantvezesnasemanaPlano] = useState("");
   const [checkinsPlano, setCheckinsPlano] = useState("");
   const [valorPlano, setValorPlano] = useState("");
@@ -19,7 +19,7 @@ export default function CriarPlano({ navigation }) {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -30,7 +30,7 @@ export default function CriarPlano({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const enviarPlano = async () => {

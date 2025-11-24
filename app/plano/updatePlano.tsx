@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function EditarPlano({ navigation }) {
+export default function EditarPlano() {
   const { id, quantvezesnasemana, checkins, valor } = useLocalSearchParams();
   const [quantvezesnasemanaPlano, setquantvezesnasemanaPlano] = useState(String(quantvezesnasemana) || "");
   const [checkinsPlano, setCheckinsPlano] = useState(String(checkins) || "");
@@ -19,7 +19,7 @@ export default function EditarPlano({ navigation }) {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -30,7 +30,7 @@ export default function EditarPlano({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const atualizarPlano = async () => {

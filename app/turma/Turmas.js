@@ -2,13 +2,14 @@
 
 import { View, Text, Button, FlatList, StyleSheet, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function Turmas({ navigation }) {
+export default function Turmas() {
 
+  const router = useRouter();
   const [turmas, setTurmas] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -16,7 +17,7 @@ export default function Turmas({ navigation }) {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -27,7 +28,7 @@ export default function Turmas({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const getTurmas = async () => {

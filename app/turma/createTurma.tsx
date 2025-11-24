@@ -7,15 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function CriarTurma({ navigation }) {
+export default function CriarTurma() {
   
+  const router = useRouter();
   const [user, setUser] = useState(null);
 
     useEffect(() => {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -26,13 +27,12 @@ export default function CriarTurma({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const [nomeTurma, setNomeTurma] = useState("");
   const [horarioTurma, setHorarioTurma] = useState("");
   const [turnoTurma, setTurnoTurma] = useState("");
-  const router = useRouter();
 
   const enviarTurma = async () => {
 

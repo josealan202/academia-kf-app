@@ -7,15 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function EditarTurma({ navigation }) {
+export default function EditarTurma() {
   
+  const router = useRouter();
   const [user, setUser] = useState(null);
 
     useEffect(() => {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -26,14 +27,13 @@ export default function EditarTurma({ navigation }) {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   const { id, nome, horario, turno } = useLocalSearchParams();
   const [nomeTurma, setNomeTurma] = useState(String(nome) || "");
   const [horarioTurma, setHorarioTurma] = useState(String(horario) || "");
   const [turnoTurma, setTurnoTurma] = useState(String(turno) || "");
-  const router = useRouter();
 
   const atualizarTurma = async () => {
     try {

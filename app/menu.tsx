@@ -2,20 +2,21 @@
 
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, FlatList, Button } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-export default function Index({ navigation }) {
+export default function Index() {
 
+  const router = useRouter();
   const [user, setUser] = useState(null);
 
     useEffect(() => {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                router.replace("/"); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -24,9 +25,10 @@ export default function Index({ navigation }) {
     }, []);
 
   const handleLogout = async () => {
+      const router = useRouter();
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      navigation.replace('/menu');
+      router.replace("/menu"); 
   };
 
   // Cabeçalho da lista
