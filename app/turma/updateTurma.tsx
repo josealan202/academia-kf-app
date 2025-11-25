@@ -16,7 +16,7 @@ export default function EditarTurma() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -27,7 +27,7 @@ export default function EditarTurma() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
   const { id, nome, horario, turno } = useLocalSearchParams();
@@ -38,7 +38,7 @@ export default function EditarTurma() {
   const atualizarTurma = async () => {
     try {
       const resposta = await fetch(
-        "https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/updateTurma",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/updateTurma",
         {
           method: "PUT",
           headers: {

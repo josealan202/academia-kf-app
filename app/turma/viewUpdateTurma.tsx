@@ -16,7 +16,7 @@ export default function Turmas() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -27,12 +27,12 @@ export default function Turmas() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
   const [turmas, setTurmas] = useState([]);
   const getTurmas = async () => {
-    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/viewTurma');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/viewTurma');
     const json = await response.json();
     setTurmas(json.data);
   }

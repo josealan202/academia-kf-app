@@ -16,7 +16,7 @@ export default function CriarTurma() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -27,7 +27,7 @@ export default function CriarTurma() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
   const [nomeTurma, setNomeTurma] = useState("");
@@ -45,7 +45,7 @@ export default function CriarTurma() {
 
   try {
     const resposta = await fetch(
-      "https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/createTurma",
+      "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/createTurma",
       {
         method: "POST",
         headers: {

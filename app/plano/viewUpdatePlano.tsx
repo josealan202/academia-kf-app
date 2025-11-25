@@ -17,7 +17,7 @@ export default function Planos() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -28,11 +28,11 @@ export default function Planos() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
   const getPlano = async () => {
-    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/viewPlano');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/viewPlano');
     const json = await response.json();
     setPlano(json.data);
   }

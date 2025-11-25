@@ -19,7 +19,7 @@ export default function CriarPlano() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -30,13 +30,13 @@ export default function CriarPlano() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
   const enviarPlano = async () => {
     try {
       const resposta = await fetch(
-        "https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/createPlano",
+        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/createPlano",
         {
           method: "POST",
           headers: {

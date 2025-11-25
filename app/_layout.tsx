@@ -15,7 +15,6 @@ export default function RootLayout() {
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <Stack
           screenOptions={{
-            headerShown: false,
             headerStyle: { backgroundColor: "gray" },
             headerTintColor: "white",
             headerTitle: "CT Gladiadores",
@@ -27,7 +26,7 @@ export default function RootLayout() {
               <Ionicons name="person" size={24} color="white" />
               <Text style={styles.label}>Usuário</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.replace("/menu")} style={styles.button}>
+            <TouchableOpacity onPress={() => router.replace("/")} style={styles.button}>
               <Ionicons name="home" size={24} color="white" />
               <Text style={styles.label}>Início</Text>
             </TouchableOpacity>

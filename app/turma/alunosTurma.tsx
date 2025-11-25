@@ -2,10 +2,10 @@
 
 import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Link, useRouter } from "expo-router";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth'
 
 export default function Membros() {
 
@@ -17,7 +17,7 @@ export default function Membros() {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                router.replace("/"); 
+                router.replace(""); 
             } else {
                 setUser(JSON.parse(savedUser));
             }
@@ -28,14 +28,21 @@ export default function Membros() {
   const handleLogout = async () => {
       await signOut(auth);
       await AsyncStorage.removeItem('@user');
-      router.replace("/menu"); 
+      router.replace(""); 
   };
 
+
+  const { id } = useLocalSearchParams();
+
   const getMembros = async () => {
-    const response = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/viewTurma`);
+    const response = await fetch(
+      `https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/alunos/${id}`
+    );
+
     const json = await response.json();
     setMembros(json.data);
-  }
+  };
+
 
   useEffect(() => {
     getMembros();
