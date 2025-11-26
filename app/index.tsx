@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '@/firebaseConfig';
@@ -12,126 +12,105 @@ export default function Index() {
   const router = useRouter();
   const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        async function checkUser() {
-            const savedUser = await AsyncStorage.getItem('@user');
-            if (!savedUser) {
-                router.replace(""); 
-            } else {
-                setUser(JSON.parse(savedUser));
-            }
-        }
-        checkUser();
-    }, []);
+  useEffect(() => {
+    async function checkUser() {
+      const savedUser = await AsyncStorage.getItem('@user');
+      if (!savedUser) {
+        router.replace(""); 
+      } else {
+        setUser(JSON.parse(savedUser));
+      }
+    }
+    checkUser();
+  }, []);
 
   const handleLogout = async () => {
-      const router = useRouter();
-      await signOut(auth);
-      await AsyncStorage.removeItem('@user');
-      router.replace(""); 
+    await signOut(auth);
+    await AsyncStorage.removeItem('@user');
+    router.replace(""); 
   };
 
-  // Cabeçalho da lista
-  function Cabecalho() {
-    return (
-      <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10, textAlign: 'left', color: 'white' }}>Gerenciamento de turmas</Text>
-    );
-  }
-
-  // Função Tela para centralizar o conteúdo
-  function Tela() {
-    return (
-      <View style={style.botaoContainerTela}>
-        <View style={style.botaoTela}>
-          <Link href="/turma/Turmas" asChild>
-            <Button title="Turmas" color="gray"/>
-          </Link>
-        </View>
-        <View style={style.botaoTela}>
-          <Link href="/plano/Planos" asChild>
-            <Button title="Planos" color="gray"/>
-          </Link>
-        </View>
-        <View style={style.botaoTela}>
-          <Link href="/alunos" asChild>
-            <Button title="Alunos" color="gray"/>
-          </Link>
-        </View>
-        <View style={style.botaoTela}>
-          <Link href="/Pagamentos" asChild>
-            <Button title="Pagamentos" color="gray"/>
-          </Link>
-        </View>
-        <View style={style.botaoTela}>
-          <Link href="/Checkins" asChild>
-            <Button title="Check-ins" color="gray"/>
-          </Link>
-        </View>      
-      </View>
-    );
-  }
-
+  const MenuButton = ({ title, href }) => (
+    <Link href={href} asChild>
+      <TouchableOpacity style={styles.menuButton}>
+        <Text style={styles.menuButtonText}>{title}</Text>
+      </TouchableOpacity>
+    </Link>
+  );
 
   return ( 
-    <View style={style.containerP}>
-      <Tela> <Cabecalho /></Tela>
+  <View style={styles.container}>
+    <Image 
+      source={require('@/assets/images/logogladiadores.jpeg')}
+      style={styles.topImage}
+    />
+    <View style={styles.buttonsArea}>
+      <MenuButton title="Turmas" href="/turma/Turmas" />
+      <MenuButton title="Planos" href="/plano/Planos" />
+      <MenuButton title="Alunos" href="/alunos" />
+      <MenuButton title="Pagamentos" href="/Pagamentos" />
+      <MenuButton title="Check-ins" href="/Checkins" />
     </View>
-  );
+
+  </View>
+);
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    justifyContent: "flex-start",
+    backgroundColor: "#0d0d0d",
+    paddingTop: 60,
     alignItems: "center",
   },
 
-  containerP: {
-    flex: 1,
-    backgroundColor: 'black'
+  buttonsArea: {
+    width: "100%",
+    marginTop: 10,
   },
 
-  itemLista: {
-    width: '100%',
-    padding: 10,
-    marginBottom: 2,
-    backgroundColor: 'gray',
+  topImage: {
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    marginBottom: 35,
+    borderWidth: 3,
+    borderColor: "#ffffff22",
+    shadowColor: "#000",
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 8,
   },
 
-  textoLista: { 
-    fontSize: 20,
-  },
-
-  centralizado: {
-    flex: 1,
-    justifyContent: 'center', // Centraliza verticalmente
-    alignItems: 'center', // Centraliza horizontalmente
-    padding: 20,
-  },
-
-  botaoContainer: {
-    flexDirection: 'row', // Alinha os botões horizontalmente
-    justifyContent: 'space-between', // Espaça igualmente os botões
-    width: '80%', // Controla a largura dos botões
-  },
-
-  botaoContainerTela: {
-    flexDirection: 'column', // Alinha os botões horizontalmente
-    justifyContent: 'center',
-    alignItems: 'center', // Centraliza os itens no eixo horizontal
-    paddingTop: 200
-  },
-
-  botaoTela: {
-    flex: 1, // Faz os botões ocuparem todo o espaço possível
-    marginBottom: 25, // Espaço entre os botões
+  menuButton: {
+    width: "100%",
+    paddingVertical: 22,
+    paddingHorizontal: 25,
     
+    backgroundColor: "#1a1a1a",
+
+    borderBottomWidth: 1,
+    borderBottomColor: "#2a2a2a",
+
+    justifyContent: "center",
+
+    // Efeito leve de destaque ao toque
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
   },
 
-  // Estilo individual de cada botão
-  botao: {
-    flex: 1, // Faz os botões ocuparem todo o espaço possível
-    marginHorizontal: 5, // Espaço entre os botões
-  }
-
+  menuButtonText: {
+    color: "white",
+    fontSize: 21,
+    fontWeight: "600",
+    textAlign: "left",
+    letterSpacing: 1,
+  },
 });
+
+

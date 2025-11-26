@@ -8,7 +8,7 @@ export default function RootLayout() {
 
   const pathname = usePathname();
 
-  const hideFooter = pathname === "/" || pathname === "/index";
+  const hideFooter = pathname === "/planos" || pathname === "/Planos";
 
   return (
     <SafeAreaProvider>

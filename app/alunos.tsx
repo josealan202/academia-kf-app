@@ -31,14 +31,14 @@ export default function Alunos({ navigation }) {
   const [aluno, setAlunos] = useState([]);
 
   const getAlunos = async () => {
-    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/aluno/viewAluno');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/aluno/viewAluno');
     const json = await response.json();
     setAlunos(json.data);
   };
 
   const deletarAluno = async (id) => {
     try {
-      const resposta = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/aluno/deleteAluno?id=${id}`, {
+      const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/aluno/deleteAluno?id=${id}`, {
         method: 'DELETE',
       });
 
