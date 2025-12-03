@@ -1,116 +1,169 @@
-//@ts-nocheck
+// @ts-nocheck
 
-import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Link, useRouter } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { auth } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
+import React, { useState } from "react";
+import {
+  View, Text, TouchableOpacity, Image, TextInput, Alert
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StyleSheet } from 'react-native';
+//import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
-export default function Index() {
+//Nesta tela eu estou fazendo o login!
+export default function Login({ navigation }) {
+  const [emailLog, setEmailLog] = useState("");
+  const [senhaLog, setSenhaLog] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-  const [user, setUser] = useState(null);
+  async function loginGoogle() {
+    console.log("Fazendo login com o google!")
+    /*
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
 
-  useEffect(() => {
-    async function checkUser() {
-      const savedUser = await AsyncStorage.getItem('@user');
-      if (!savedUser) {
-        router.replace(""); 
-      } else {
-        setUser(JSON.parse(savedUser));
-      }
+      await AsyncStorage.setItem("@user", JSON.stringify(userInfo.user));
+
+      navigation.replace("UserScreen");
+
+    } catch (e) {
+      console.log(e);
+      Alert.alert("Erro", "Não foi possível entrar com o Google.");
     }
-    checkUser();
-  }, []);
+      */
+  }
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    await AsyncStorage.removeItem('@user');
-    router.replace(""); 
-  };
+  async function loginEmailSenha() {
+    if (!emailLog || !senhaLog) {
+      return Alert.alert("Erro", "Preencha email e senha.");
+    }
 
-  const MenuButton = ({ title, href }) => (
-    <Link href={href} asChild>
-      <TouchableOpacity style={styles.menuButton}>
-        <Text style={styles.menuButtonText}>{title}</Text>
+    console.log("Acabei de fazer login com o email e senha!")
+    setLoading(true);
+
+    try {
+      //fazer chamada da api aqui para fazer login
+      const resp = await fetch("https://sk3c6h6g-3000.brs.devtunnels.ms/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emailLog, senhaLog })
+      });
+
+      const dados = await resp.json();
+
+      if (!resp.ok) {
+        setLoading(false);
+        return Alert.alert("Erro", dados.mensagem);
+      }
+    
+      await AsyncStorage.setItem("@user", JSON.stringify(dados.usuario));
+      setLoading(false);
+
+      navigation.replace("/index");
+
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Erro", "Falha ao conectar ao servidor.");
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      <Image
+        source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" }}
+        style={styles.logo}
+      />
+
+      <Text style={styles.title}>Bem-vindo!</Text>
+      <Text style={styles.subtitle}>Entre com Google ou Email/Senha</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#888"
+        keyboardType="email-address"
+        value={emailLog}
+        onChangeText={setEmailLog}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Senha"
+        placeholderTextColor="#888"
+        secureTextEntry
+        value={senhaLog}
+        onChangeText={setSenhaLog}
+      />
+
+      <TouchableOpacity
+        style={[styles.button, styles.emailButton]}
+        onPress={loginEmailSenha}
+      >
+        <Text style={styles.buttonText}>
+          {loading ? "Entrando..." : "Login com Email"}
+        </Text>
       </TouchableOpacity>
-    </Link>
-  );
 
-  return ( 
-  <View style={styles.container}>
-    <Image 
-      source={require('@/assets/images/logogladiadores.jpeg')}
-      style={styles.topImage}
-    />
-    <View style={styles.buttonsArea}>
-      <MenuButton title="Turmas" href="/turma/Turmas" />
-      <MenuButton title="Planos" href="/plano/Planos" />
-      <MenuButton title="Alunos" href="/alunos" />
-      <MenuButton title="Pagamentos" href="/Pagamentos" />
-      <MenuButton title="Check-ins" href="/Checkins" />
+      <Text style={{ marginVertical: 20, fontSize: 16 }}>ou</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={loginGoogle}
+      >
+        <Text style={styles.buttonText}>Entrar com Google</Text>
+      </TouchableOpacity>
     </View>
-
-  </View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    backgroundColor: "#0d0d0d",
-    paddingTop: 60,
-    alignItems: "center",
-  },
-
-  buttonsArea: {
-    width: "100%",
-    marginTop: 10,
-  },
-
-  topImage: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    marginBottom: 35,
-    borderWidth: 3,
-    borderColor: "#ffffff22",
-    shadowColor: "#000",
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 8,
-  },
-
-  menuButton: {
-    width: "100%",
-    paddingVertical: 22,
-    paddingHorizontal: 25,
     
-    backgroundColor: "#1a1a1a",
-
-    borderBottomWidth: 1,
-    borderBottomColor: "#2a2a2a",
-
-    justifyContent: "center",
-
-    // Efeito leve de destaque ao toque
-    shadowColor: "#000",
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 2,
-  },
-
-  menuButtonText: {
-    color: "white",
-    fontSize: 21,
-    fontWeight: "600",
-    textAlign: "left",
-    letterSpacing: 1,
-  },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+        backgroundColor: "black"
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        marginBottom: 40
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        marginBottom: 10
+    },
+    subtitle: {
+        fontSize: 16,
+        color: "#666",
+        marginBottom: 30,
+        textAlign: "center"
+    },
+    input: {
+        color: "white",
+        width: "100%",
+        height: 50,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        marginBottom: 15,
+        fontSize: 16
+    },
+    emailButton: {
+        backgroundColor: "#333",
+        marginBottom: 10
+    },
+    button: {
+        backgroundColor: "#4285F4",
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8
+    },
+    buttonText: {
+        color: "#ffffff",
+        fontSize: 18,
+        textAlign: "center"
+    }
 });
-
-

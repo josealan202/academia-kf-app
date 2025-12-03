@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { auth } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
 
 export default function EditarPlano() {
   const { id, quantvezesnasemana, checkins, valor } = useLocalSearchParams();

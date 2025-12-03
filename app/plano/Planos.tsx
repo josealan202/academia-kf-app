@@ -4,8 +4,6 @@ import { View, Text, Button, FlatList, StyleSheet, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { auth } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
 
 export default function Planos() {
 

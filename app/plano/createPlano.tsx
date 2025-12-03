@@ -3,8 +3,6 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { auth } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 
 export default function CriarPlano() {
