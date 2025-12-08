@@ -68,35 +68,45 @@ export default function EditarPlano() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Editar Plano</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Quantidade de vezes da semana do plano"
-        placeholderTextColor="#aaa"
-        value={quantvezesnasemanaPlano}
-        keyboardType="numeric"
-        maxLength={1}
-        onChangeText={setquantvezesnasemanaPlano}
-      />
+      <View style={styles.row}>
+        <Text style={styles.label}>Vezes na semana:</Text>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="Quantidade"
+          placeholderTextColor="#aaa"
+          value={quantvezesnasemanaPlano}
+          keyboardType="numeric"
+          maxLength={1}
+          onChangeText={setquantvezesnasemanaPlano}
+        />
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Quantidade de check-ins do plano"
-        placeholderTextColor="#aaa"
-        value={checkinsPlano}
-        keyboardType="numeric"
-        maxLength={2}
-        onChangeText={setCheckinsPlano}
-      />
+      <View style={styles.row}>
+        <Text style={styles.label}>Check-ins:</Text>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="Check-ins"
+          placeholderTextColor="#aaa"
+          value={checkinsPlano}
+          keyboardType="numeric"
+          maxLength={2}
+          onChangeText={setCheckinsPlano}
+        />
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Valor do plano"
-        placeholderTextColor="#aaa"
-        value={valorPlano}
-        keyboardType="decimal-pad"
-        maxLength={3}
-        onChangeText={setValorPlano}
-      />
+      <View style={styles.row}>
+        <Text style={styles.label}>Valor:</Text>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="Valor"
+          placeholderTextColor="#aaa"
+          value={valorPlano}
+          keyboardType="decimal-pad"
+          maxLength={6}
+          onChangeText={setValorPlano}
+        />
+      </View>
+
 
       <View style={styles.botao}>
         <Button title="Salvar Alterações" color="gray" onPress={atualizarPlano} />
@@ -133,6 +143,21 @@ const styles = StyleSheet.create({
 
   botao: {
     width: "70%",
-  }
+  },
+
+  row: {
+  width: "100%",
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 20,
+},
+
+label: {
+  width: 100, // espaçamento fixo antes do input
+  color: "white",
+  fontSize: 16,
+  marginRight: 10,
+  textAlign: "right",
+},
 
 });

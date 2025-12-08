@@ -13,7 +13,7 @@ export default function Alunos({ navigation }) {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('/menu');
+                navigation.replace('menu');
             } else {
                 setUser(JSON.parse(savedUser));
             }

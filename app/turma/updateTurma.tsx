@@ -71,39 +71,43 @@ export default function EditarTurma() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Editar Turma</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome da turma"
-        placeholderTextColor="#aaa"
-        value={nomeTurma}
-        onChangeText={setNomeTurma}
-      />
+      <View style={styles.row}>
+      <Text style={styles.label}>Nome:</Text>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="Nome da turma"
+          placeholderTextColor="#aaa"
+          value={nomeTurma}
+          onChangeText={setNomeTurma}
+        />
+      </View>
 
+      <View style={styles.row}>
+        <Text style={styles.label}>Horário:</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Horário da turma (HH:MM)"
+        style={[styles.input, { flex: 1 }]}
+        placeholder="HH:MM"
         placeholderTextColor="#aaa"
         value={horarioTurma}
         onChangeText={(texto) => {
-        // remove tudo que não é número
-        let apenasNumeros = texto.replace(/\D/g, "");
+          let apenasNumeros = texto.replace(/\D/g, "");
 
-        // limita em 4 caracteres (HHMM)
-        if (apenasNumeros.length > 4) {
-          apenasNumeros = apenasNumeros.slice(0, 4);
-        }
+          if (apenasNumeros.length > 4) {
+            apenasNumeros = apenasNumeros.slice(0, 4);
+          }
 
-        // formata para HH:MM
-        let formatado = apenasNumeros;
-        if (apenasNumeros.length >= 3) {
-          formatado = apenasNumeros.slice(0, 2) + ":" + apenasNumeros.slice(2);
-        }
+          let formatado = apenasNumeros;
+            if (apenasNumeros.length >= 3) {
+              formatado = apenasNumeros.slice(0, 2) + ":" + apenasNumeros.slice(2);
+            }
 
-          setHorarioTurma(formatado);
-        }}
-          keyboardType="numeric"
-          maxLength={5}
-        />
+            setHorarioTurma(formatado);
+          }}
+            keyboardType="numeric"
+            maxLength={5}
+          />
+      </View>
+
 
       <View style={styles.containerTurno}>
         <Text style={styles.turno}>Escolha um turno:</Text>
@@ -160,6 +164,23 @@ const styles = StyleSheet.create({
   },
 
   botao: {
+    marginTop: "10%",
     width: "70%",
-  }
+  },
+
+  row: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+
+  label: {
+    width: 100,
+    color: "white",
+    fontSize: 16,
+    marginRight: 10,
+    textAlign: "right",
+  },
+
 });
