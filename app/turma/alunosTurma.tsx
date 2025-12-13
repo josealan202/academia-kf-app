@@ -14,7 +14,7 @@ export default function Membros() {
 
     useEffect(() => {
         async function checkUser() {
-            const savedUser = await AsyncStorage.getItem('@user');
+            const savedUser = await AsyncStorage.setItem('@user', JSON.stringify(user));
             if (!savedUser) {
                 router.replace(""); 
             } else {
@@ -35,7 +35,7 @@ export default function Membros() {
 
   const getMembros = async () => {
     const response = await fetch(
-      `https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/alunos/${id}`
+      `https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/membros/${id}`
     );
 
     const json = await response.json();
@@ -51,9 +51,7 @@ export default function Membros() {
   function Item({ usuario }: { usuario: { id: number; nome: string; email: string; senha: string; sexo: string; diadopagamento: string } }) {
     return (
       <View style={styles.containerMembros}>
-        <Link href="" asChild>
           <Button title={`${usuario.nome}`} color="gray"></Button>
-        </Link>
       </View>
     );
   }
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
   },
 
   containerMembros: {
-    flex: 1,
     backgroundColor: "black",
     paddingTop: 20,
     paddingHorizontal: 15,
