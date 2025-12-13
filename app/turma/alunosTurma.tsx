@@ -51,7 +51,7 @@ export default function Membros() {
   function Item({ usuario }: { usuario: { id: number; nome: string; email: string; senha: string; sexo: string; diadopagamento: string } }) {
     return (
       <View style={styles.containerMembros}>
-        <Link href="/" asChild>
+        <Link href="" asChild>
           <Button title={`${usuario.nome}`} color="gray"></Button>
         </Link>
       </View>

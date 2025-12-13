@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function Alunos({ navigation }) {
+export default function Alunos() {
   
   const [user, setUser] = useState(null);
 
@@ -13,7 +13,7 @@ export default function Alunos({ navigation }) {
         async function checkUser() {
             const savedUser = await AsyncStorage.getItem('@user');
             if (!savedUser) {
-                navigation.replace('menu');
+                navigation.replace('');
             } else {
                 setUser(JSON.parse(savedUser));
             }
