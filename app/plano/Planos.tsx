@@ -30,14 +30,14 @@ export default function Planos() {
   };
 
   const getPlano = async () => {
-    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/viewPlano');
+    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/viewPlano');
     const json = await response.json();
     setPlano(json.data);
   }
 
   const deletarPlano = async (id) => {
   try {
-    const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
+    const resposta = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/deletePlano?id=${id}`, {
       method: 'DELETE',
     });
 
@@ -65,7 +65,10 @@ export default function Planos() {
   function Item({ plano }: { plano: { id: number; quantvezesnasemana: number; checkins: number; valor: number; } }) {
     return (
       <View style={styles.containerPlanos}>
-        <Link href="/plano/assinantes" asChild
+        <Link href={{
+          pathname: "/plano/assinantes",
+          params: { id: plano.id },
+        }} asChild
       >
         <Button 
           title={`${plano.quantvezesnasemana} dia(s) na semana | ${plano.checkins} Check-ins | R$ ${plano.valor} reais`} 

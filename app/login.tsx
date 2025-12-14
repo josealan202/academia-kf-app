@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
 
     try {
       const resp = await fetch(
-        "https://seu-projeto.vercel.app/api/login",
+        "http://26.125.24.172:3000/api/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -45,8 +45,8 @@ export default function Login({ navigation }) {
 
       navigation.replace("menu");
     } catch (error) {
-      setLoading(false);
-      Alert.alert("Erro", "Falha ao conectar ao servidor.");
+      console.log("ERRO FETCH:", error);
+      Alert.alert("Erro", String(error));
     }
   }
 
