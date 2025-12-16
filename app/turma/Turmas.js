@@ -31,14 +31,14 @@ export default function Turmas() {
   };
 
   const getTurmas = async () => {
-    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/viewTurma');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/viewTurma');
     const json = await response.json();
     setTurmas(json.data);
   }
 
   const deletarTurma = async (id) => {
   try {
-    const resposta = await fetch(`https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/deleteTurma?id=${id}`, {
+    const resposta = await fetch(`https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/deleteTurma?id=${id}`, {
       method: 'DELETE',
     });
 

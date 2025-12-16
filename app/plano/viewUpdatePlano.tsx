@@ -31,7 +31,7 @@ export default function Planos() {
   };
 
   const getPlano = async () => {
-    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/viewPlano');
+    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/viewPlano');
     const json = await response.json();
     setPlano(json.data);
   }

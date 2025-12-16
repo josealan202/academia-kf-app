@@ -13,7 +13,7 @@ export default function AssinantesPlano() {
   const getAssinantes = async () => {
     try {
       const response = await fetch(
-        `https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/assinantesPlano/${id}`
+        `https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/assinantesPlano/${id}`
       );
       const json = await response.json();
       setAssinantes(json.data);
