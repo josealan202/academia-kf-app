@@ -31,7 +31,7 @@ export default function Turmas() {
 
   const [turmas, setTurmas] = useState([]);
   const getTurmas = async () => {
-    const response = await fetch('https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/viewTurma');
+    const response = await fetch('https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/viewTurma');
     const json = await response.json();
     setTurmas(json.data);
   }

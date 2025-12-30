@@ -35,7 +35,7 @@ export default function Membros() {
 
   const getMembros = async () => {
     const response = await fetch(
-      `https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/membros/${id}`
+      `https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/membros/${id}`
     );
 
     const json = await response.json();

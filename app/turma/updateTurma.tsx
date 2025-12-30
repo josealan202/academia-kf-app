@@ -37,7 +37,7 @@ export default function EditarTurma() {
   const atualizarTurma = async () => {
     try {
       const resposta = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/updateTurma",
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/updateTurma",
         {
           method: "PUT",
           headers: {

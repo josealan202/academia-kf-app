@@ -34,7 +34,7 @@ export default function EditarPlano() {
   const atualizarPlano = async () => {
     try {
       const resposta = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/plano/updatePlano",
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/plano/updatePlano",
         {
           method: "PUT",
           headers: {

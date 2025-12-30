@@ -7,7 +7,7 @@ export default function Aula() {
 
   const carregarAlunos = async () => {
     const res = await fetch(
-      "https://sk3c6h6g-3000.brs.devtunnels.ms/api/aluno/viewAlunoComPlano"
+      "https://lz89qm1s-3000.brs.devtunnels.ms/api/aluno/viewAlunoComPlano"
     );
     const json = await res.json();
     setAlunos(json.data);
@@ -20,7 +20,7 @@ export default function Aula() {
   const marcarPresenca = async (id_usuario) => {
     try {
       const res = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/checkin/useCheckin",
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/checkin/useCheckin",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

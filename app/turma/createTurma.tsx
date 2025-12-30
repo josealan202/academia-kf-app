@@ -31,7 +31,6 @@ export default function CriarTurma() {
 
   const [nomeTurma, setNomeTurma] = useState("");
   const [horarioTurma, setHorarioTurma] = useState("");
-  const [turnoTurma, setTurnoTurma] = useState("");
 
   const enviarTurma = async () => {
 
@@ -44,7 +43,7 @@ export default function CriarTurma() {
 
   try {
     const resposta = await fetch(
-      "https://sk3c6h6g-3000.brs.devtunnels.ms/api/turma/createTurma",
+      "https://lz89qm1s-3000.brs.devtunnels.ms/api/turma/createTurma",
       {
         method: "POST",
         headers: {
@@ -53,8 +52,7 @@ export default function CriarTurma() {
         },
         body: JSON.stringify({
           nome: nomeTurma,
-          horario: horarioTurma,
-          turno: turnoTurma
+          horario: horarioTurma
         }),
       }
     );
@@ -110,18 +108,6 @@ export default function CriarTurma() {
           maxLength={5}
         />
 
-      <View style={styles.containerTurno}>
-        <Text style={styles.turno}>Escolha um turno:</Text>
-        {["Manhã", "Tarde", "Noite"].map((item) => (
-          <Button
-            key={item}
-            title={item}
-            color={turnoTurma === item ? "gray" : "black"}
-            onPress={() => setTurnoTurma(item)}
-          />
-        ))}
-      </View>
-
       <View style={styles.botao}>
         <Button title="Criar" color="gray" onPress={enviarTurma} />
       </View>
@@ -139,20 +125,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  containerTurno: {
-    flexDirection: "row", 
-    justifyContent: "space-between"
-  },
-
   titulo: {
     fontSize: 24,
     color: "white",
     marginBottom: 20,
     fontWeight: "bold",
-  },
-
-  turno: {
-    color: "white"
   },
 
   input: {
@@ -168,5 +145,4 @@ const styles = StyleSheet.create({
   botao: {
     width: "50%",
   }
-  
 });

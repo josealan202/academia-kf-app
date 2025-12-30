@@ -11,7 +11,7 @@ export default function Solicitacoes() {
   const carregarSolicitacoes = async () => {
     try {
       const res = await fetch(
-        "https://sk3c6h6g-3000.brs.devtunnels.ms/api/solicitacao-plano/pendentes"
+        "https://lz89qm1s-3000.brs.devtunnels.ms/api/solicitacao-plano/pendentes"
       );
       const data = await res.json();
       setSolicitacoes(data);
@@ -27,7 +27,7 @@ export default function Solicitacoes() {
   const responderSolicitacao = async (id, status) => {
     try {
       const res = await fetch(
-        `https://sk3c6h6g-3000.brs.devtunnels.ms/api/solicitacao-plano/${id}`,
+        `https://lz89qm1s-3000.brs.devtunnels.ms/api/solicitacao-plano/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
